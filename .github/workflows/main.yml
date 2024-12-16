@@ -1,32 +1,25 @@
-# name 可以自定义
-name: Deploy GitHub Pages
+name: My Workflow
 
-# 触发条件：在 push 到 master 分支后
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:  # 允许手动触发
+  # schedule:
+  #   - cron: '0 9 * * 1'  # 每周一上午9点触发
 
-# 任务
 jobs:
   build-and-deploy:
-    # 服务器环境：最新版 Ubuntu
+    concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
     runs-on: ubuntu-latest
     steps:
-      # 拉取代码
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          persist-credentials: false
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
 
-      # 生成静态文件
-      - name: Build
-        run: npm install && npm run docs:build
+      - name: Install dependencies
+        run: npm install # 或者使用 yarn install，取决于你的项目
+  
+      - name: Build project
+        run: npm run build # 或者使用 yarn build，取决于你的构建命令
 
-      # 部署到 GitHub Pages
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@releases/v3
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }} # 刚才生成的 secret
-          BRANCH: gh-pages # 部署到 gh-pages 分支，因为 main 分支存放的一般是源码，而 gh-pages 分支则用来存放生成的静态文件
-          FOLDER: docs/.vuepress/dist # vuepress 生成的静态文件存放的地方
+          folder: build # The folder the action should deploy.
