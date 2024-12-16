@@ -109,8 +109,8 @@ const Login: React.FC = () => {
             maxWidth: '75vw',
           }}
           logo={<img alt="logo" src="/logo.gif"/>}
-          title="API 接口开放平台"
-          subTitle={'API 接口开放平台致力于提供稳定、安全、高效的接口调用服务'}
+          title="接口开放平台"
+          subTitle={'接口开放平台致力于提供稳定、安全、高效的接口调用服务'}
           initialValues={{
             autoLogin: true,
           }}
