@@ -13,8 +13,16 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v4
 
-      - name: Install dependencies
-        run: npm install # 或者使用 yarn install，取决于你的项目
+      # 安装Node10
+      - name: 安装node.js
+        # 使用action库  actions/setup-node安装node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+
+      # 安装依赖
+      - name: 安装依赖
+        run: npm install
   
       - name: Build project
         run: npm run build # 或者使用 yarn build，取决于你的构建命令
